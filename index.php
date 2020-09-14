@@ -1,46 +1,60 @@
 <?php
 
 // fw = for who
-function order_pizza($pizzatype, $forWho)
+function orderPizza($pizzatype, $customer)
 {
+
+  $price = calculateCostPizza($pizzatype);
+  $address = getAddress($customer);
+
   echo 'Creating new order... <br>';
+  echo 'Order finished.<br><br>';
+  echo "A {$pizzatype} schould be be sent to {$customer} <br>";
+  echo "The address: {$address} <br>";
+  echo "The bill is € {$price} <br>";
+};
 
-  $price = calculate_cost_pizza($pizzatype);
-
-  $address = 'unknown';
-  if ($forWho == 'koen') {
-    $address = 'a yacht in Antwerp';
-  } elseif ($forWho == 'manuele') {
-    $address = 'somewhere in Belgium';
-  } elseif ($forWho == 'students') {
-    $address = 'BeCode office';
-  }
-
-  $messagePizzaOrder = "A " . $pizzatype . " pizza should be sent to " . $forWho . ". <br>";
-  $messageAdress = "The address: " . $address . "<br>";
-  $messageBill = "The bill is €" . $price . "<br>";
-
-  echo $messagePizzaOrder . $messageAdress . $messageBill;
-  echo "Order finished.<br><br>";
-}
-
-function calculate_cost_pizza($pizzaType)
+function getAddress($customer)
 {
-  $cost = 0;
-
-  if ($pizzaType == 'marguerita') {
-    $cost = 5;
-  } else if ($pizzaType == 'golden') {
-    $cost = 100;
-  } else if ($pizzaType == 'calzone') {
-    $cost = 10;
-  } else if ($pizzaType == 'hawai') {
-    throw new Exception('Computer says no');
+  switch ($customer) {
+    case 'koen':
+      return 'a yacht in Antwerp';
+    case 'manuele':
+      return 'somewhere in Belgium';
+    case 'bert':
+      return 'BeCode office';
+    default:
+      return 'No address known';
   }
+};
 
-  return $cost;
+function calculateCostPizza($pizzaType)
+{
+  switch ($pizzaType) {
+    case 'marguerita':
+      return 5;
+    case 'golden':
+      return 100;
+    case 'calzone':
+      return 10;
+    case 'hawai':
+      throw new Exception('Computer says no');
+  }
 }
 
-order_pizza('calzone', 'koen');
-order_pizza('marguerita', 'manuele');
-order_pizza('golden', 'students');
+function orderPizzaForAll()
+{
+  orderPizza('calzone', 'koen');
+  orderPizza('marguerita', 'manuele');
+  orderPizza('golden', 'students');
+};
+
+orderPizzaForAll();
+
+
+
+// Use single quotes as best practise, and use \ (alt-shft-/) escape for 'it\'s'
+// Clear naming: use Camelcase as preference, start a function with a verb
+// when you use double quotes, you can use {$variable}
+// Make an echo statement for every break
+// Do not use else and return early
